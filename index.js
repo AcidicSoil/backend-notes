@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors"); // <-- Import the CORS module
 const app = express();
 
+// Middleware to serve static content
+app.use(express.static("dist"));
+
 // Middleware to parse JSON bodies
 app.use(express.json());
 
