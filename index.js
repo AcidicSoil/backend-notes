@@ -1,11 +1,16 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
+
 const mongoose = require("mongoose");
 
-const url = process.env.MONGODB_URI;
+const Note = require("./models/note");
 
+/*
+const url = process.env.MONGODB_URI;
+console.log(process.env.MONGODB_URI);
 mongoose.connect(url);
 
 const noteSchema = new mongoose.Schema({
@@ -14,10 +19,41 @@ const noteSchema = new mongoose.Schema({
 });
 
 const Note = mongoose.model("Note", noteSchema);
+*/
+/*
+if (process.argv.length < 3) {
+  console.log(
+    "Please provide the password as an argument: node mongo.js <password>"
+  );
+  process.exit(1);
+}
 
+const password = process.argv[2];
+const dbname = "noteApp"; // Replace with your database name
+
+const url = `mongodb+srv://FEphonebookAdmin:${password}@cluster0.zm1apny.mongodb.net/${dbname}`;
+
+mongoose
+  .connect(url)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error.message);
+  });
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+});
+
+// const Note = mongoose.model("Note", noteSchema);
+*/
 app.use(express.static("dist"));
 app.use(express.json());
 app.use(cors());
+
+let notes = [];
 
 app.use((request, response, next) => {
   console.log("Method:", request.method);
@@ -35,7 +71,7 @@ app.get("/api/notes", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.get("/api/notes/:id", (request, response, next) => {
+app.get("/api/notes/:id", (request, response) => {
   Note.findById(request.params.id)
     .then((note) => {
       if (note) {
@@ -87,7 +123,7 @@ app.use((request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
