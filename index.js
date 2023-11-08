@@ -63,7 +63,7 @@ app.use((request, response, next) => {
   next();
 });
 
-app.get("/api/notes", (request, response, next) => {
+app.get("/api/notes", (request, response) => {
   Note.find({})
     .then((notes) => {
       response.json(notes);
@@ -83,7 +83,7 @@ app.get("/api/notes/:id", (request, response) => {
     .catch((error) => next(error));
 });
 
-app.delete("/api/notes/:id", (request, response, next) => {
+app.delete("/api/notes/:id", (request, response) => {
   Note.findByIdAndRemove(request.params.id)
     .then(() => {
       response.status(204).end();
