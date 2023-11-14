@@ -5,6 +5,6 @@ POST http://localhost:3001/api/notes/
 content-type: application/json
 
 {
-    "content": "Ensure everything still works (this should appear when running npm run dev for the frontend)",
+    "content": "Testing note creation",
     "important": true
 }
